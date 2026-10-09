@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koleksi Partitur Koor</title>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Supabase JS & PDF.js Canvas Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-brand">Partitur Koor</div>
+        <div class="nav-links">
+            <button onclick="showPage('home')">Beranda</button>
+            <button onclick="showPage('list')">Semua Koleksi</button>
+            <button class="btn-login" onclick="window.location.href='admin.html'">Admin Panel</button>
+        </div>
+    </nav>
+
+    <!-- Halaman Utama -->
+    <main id="page-home" class="page active">
+        <header class="hero">
+            <h1>Koleksi Partitur Koor</h1>
+            <p>Eksplorasi dan nyanyikan puji-pujian dengan harmoni</p>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Cari judul, komposer, suara, atau tema..." onkeyup="searchPartitur()">
+            </div>
+        </header>
+
+        <section class="latest-section">
+            <h2>Lagu Terbaru (5 Partitur Teratas)</h2>
+            <div class="grid-container" id="latest-grid">
+                <!-- Data di-load via JS -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Halaman Daftar Seluruh Koleksi (A-Z) -->
+    <main id="page-list" class="page hidden">
+        <div class="container">
+            <h2>Koleksi Lengkap (A-Z)</h2>
+            <div class="filter-bar">
+                <select id="filterSuara" onchange="applyFilters()">
+                    <option value="">Semua Suara</option>
+                    <option value="SATB">SATB</option>
+                    <option value="SSA">SSA</option>
+                    <option value="TTBB">TTBB</option>
+                    <option value="Unisono">Unisono</option>
+                    <option value="Lainnya">Lainnya</option>
+                </select>
+                <select id="filterTema" onchange="applyFilters()">
+                    <option value="">Semua Tema</option>
+                    <option value="Umum">Umum</option>
+                    <option value="Natal">Natal</option>
+                    <option value="Paskah">Paskah</option>
+                    <option value="Adven">Adven</option>
+                    <option value="Perkawinan">Perkawinan</option>
+                </select>
+            </div>
+            <ul class="alphabet-list" id="full-list">
+                <!-- Data di-load via JS -->
+            </ul>
+        </div>
+    </main>
+
+    <!-- Modal Detail Lagu -->
+    <div id="modal-detail" class="modal hidden">
+        <div class="modal-content glass-effect">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <h2 id="detail-title" class="pt-serif">Judul Lagu</h2>
+            <p id="detail-composer" class="composer-text">Komposer</p>
+            
+            <div class="tags-container">
+                <span id="detail-suara" class="tag-badge">SATB</span>
+                <span id="detail-tema" class="tag-badge">Umum</span>
+            </div>
+            
+            <p id="detail-desc" class="desc-text">Deskripsi lagu...</p>
+            
+            <div class="action-buttons">
+                <button id="btn-sing" class="btn-primary" onclick="openFullscreenPDF()">🎤 Bernyanyi (Fullscreen)</button>
+                <a id="btn-download" href="#" class="btn-secondary" download target="_blank">⬇ Download PDF</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen PDF Viewer (Canvas Render untuk View Only) -->
+    <div id="pdf-viewer" class="fullscreen-viewer hidden">
+        <div class="pdf-toolbar">
+            <button class="btn-back" onclick="closeFullscreenPDF()">⬅ Kembali</button>
+            <span id="pdf-title">Judul Lagu</span>
+        </div>
+        <div id="pdf-canvas-container" class="canvas-scroll-area">
+            <!-- Canvas PDF dirender di sini -->
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
